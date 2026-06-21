@@ -35,7 +35,6 @@ from utils.recommendation import DEFAULT_MEDIAN_MONTHLY
 # ──────────────────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="FINTel Customer Churn Intelligence Dashboard",
-    page_icon="📡",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -387,7 +386,6 @@ def render_header():
     st.markdown(
         f"""
         <div class="app-header">
-            <div class="logo-badge">📡</div>
             <div class="title-block">
                 <h1>FINTel Customer Churn Intelligence Dashboard</h1>
                 <p>AI-Powered Customer Retention System</p>
@@ -681,7 +679,7 @@ def page_existing_customer(artifacts: dict, metadata: dict):
     median_monthly = metadata.get("median_monthly_charges", DEFAULT_MEDIAN_MONTHLY)
 
     st.markdown(
-        '<div class="fintel-section-title">🔍 Cari Pelanggan Terdaftar</div>',
+        '<div class="fintel-section-title"> Cari Pelanggan Terdaftar</div>',
         unsafe_allow_html=True,
     )
 
@@ -832,7 +830,7 @@ def page_new_customer(artifacts: dict, metadata: dict):
         i7, _ = st.columns(2)
         streaming_movies = i7.selectbox("Streaming Movies", CATEGORICAL_OPTIONS["StreamingMovies"])
 
-        submitted = st.form_submit_button("🔮 Prediksi Churn", type="primary", use_container_width=True)
+        submitted = st.form_submit_button("Prediksi Churn", type="primary", use_container_width=True)
 
     if not submitted:
         st.info(" Isi form di atas lalu klik **Prediksi Churn** untuk melihat laporan.")
@@ -965,7 +963,7 @@ def page_bulk_prediction(artifacts: dict, metadata: dict):
         "Cocok untuk skenario evaluasi prospek campaign / pipeline sales."
     )
 
-    with st.expander("📋 Format file yang dibutuhkan", expanded=False):
+    with st.expander("Format file yang dibutuhkan", expanded=False):
         st.markdown(
             "File CSV/Excel wajib berisi **kolom-kolom berikut** (urutan bebas):"
         )
