@@ -1,0 +1,23 @@
+# FINTel Customer Churn Intelligence Dashboard — requirements
+#
+# PENTING: Versi di bawah ini di-PIN PERSIS sama dengan environment yang
+# dipakai untuk men-training model (.pkl) yang disertakan di folder models/.
+# Pickle scikit-learn/imbalanced-learn/shap SENSITIF terhadap versi —
+# menggunakan versi library yang berbeda (terutama scikit-learn) berisiko
+# menyebabkan model gagal di-load atau memberi hasil yang tidak konsisten.
+#
+# Jika Anda RE-TRAIN model sendiri (lihat train_model.py) menggunakan versi
+# library yang berbeda, sesuaikan juga file ini agar tetap konsisten dengan
+# environment training Anda.
+
+streamlit==1.58.0
+pandas==3.0.2
+numpy==2.4.4
+scikit-learn==1.8.0
+imbalanced-learn==0.14.2
+category_encoders==2.8.1
+shap==0.52.0
+plotly==6.8.0
+xgboost==3.3.0
+lightgbm==4.6.0
+scipy==1.17.1

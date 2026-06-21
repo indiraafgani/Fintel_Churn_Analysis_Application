@@ -1,0 +1,107 @@
+======================================================================
+FINTel Churn Model Training
+======================================================================
+Loaded df_full_with_id.csv: (7032, 32)
+Cold Start    : 1360 rows
+Non-Cold Start: 5672 rows
+
+======================================================================
+Segment: Cold Start (<=5 bln)
+======================================================================
+  Train: (1088, 20) | Test: (272, 20)
+  Benchmarking (GridSearchCV)...
+  Done in 29.4s | Best: 0.7258
+  Top-3: ['LogisticRegression', 'RidgeClassifier', 'VotingClassifier']
+  Tuning LogisticRegression...
+    -> FBeta(b=2)=0.7773
+  Tuning RidgeClassifier...
+    -> FBeta(b=2)=0.7444
+  Tuning VotingClassifier...
+    -> FBeta(b=2)=0.7133
+  ## Model terbaik: LogisticRegression (FBeta=0.7773)
+  Optimal threshold: 0.2093 | F2=0.8673 | P=0.5665 | R=1.0000
+              precision    recall  f1-score   support
+
+    No Churn       1.00      0.07      0.14       123
+       Churn       0.57      1.00      0.72       149
+
+    accuracy                           0.58       272
+   macro avg       0.78      0.54      0.43       272
+weighted avg       0.76      0.58      0.46       272
+
+  ROC-AUC: 0.7586 | model=LogisticRegression
+  SHAP model: LogisticRegression | features: 20
+Background dataset has 272 samples but max_samples=100. Subsampling to 100 samples for SHAP value computation. To use all samples, set max_samples=272 when initializing the masker.
+
+======================================================================
+Segment: Non-Cold Start (>5 bln)
+======================================================================
+  Train: (4537, 20) | Test: (1135, 20)
+  Benchmarking (GridSearchCV)...
+  Done in 58.0s | Best: 0.6621
+  Top-3: ['RidgeClassifier', 'LogisticRegression', 'VotingClassifier']
+  Tuning RidgeClassifier...
+    -> FBeta(b=2)=0.6596
+  Tuning LogisticRegression...
+    -> FBeta(b=2)=0.6617
+  Tuning VotingClassifier...
+    -> FBeta(b=2)=0.5948
+  ## Model terbaik: LogisticRegression (FBeta=0.6617)
+  Optimal threshold: 0.5099 | F2=0.7116 | P=0.4416 | R=0.8400
+              precision    recall  f1-score   support
+
+    No Churn       0.95      0.74      0.83       910
+       Churn       0.44      0.84      0.58       225
+
+    accuracy                           0.76      1135
+   macro avg       0.70      0.79      0.70      1135
+weighted avg       0.85      0.76      0.78      1135
+
+  ROC-AUC: 0.8522 | model=LogisticRegression
+  SHAP model: LogisticRegression | features: 20
+Background dataset has 1135 samples but max_samples=100. Subsampling to 100 samples for SHAP value computation. To use all samples, set max_samples=1135 when initializing the masker.
+
+======================================================================
+Saving artifacts
+======================================================================
+Saved models/cold_start_model.pkl
+Saved models/noncold_model.pkl
+Saved models/cold_shap.pkl
+Saved models/noncold_shap.pkl
+Saved data/customer_data.csv ((7032, 34))
+Saved models/model_metadata.json
+{
+  "cold_start": {
+    "model_name": "LogisticRegression",
+    "threshold": 0.20931033582390476,
+    "metrics": {
+      "recall": 1.0,
+      "precision": 0.5665399239543726,
+      "f2": 0.8672875436554133,
+      "roc_auc": 0.7586348011131118,
+      "n_train": 1088,
+      "n_test": 272
+    },
+    "shap_explainer": "LinearExplainer"
+  },
+  "non_cold_start": {
+    "model_name": "LogisticRegression",
+    "threshold": 0.5098884392378822,
+    "metrics": {
+      "recall": 0.84,
+      "precision": 0.441588785046729,
+      "f2": 0.7115963855421686,
+      "roc_auc": 0.8522442002442002,
+      "n_train": 4537,
+      "n_test": 1135
+    },
+    "shap_explainer": "LinearExplainer"
+  },
+  "median_monthly_charges": 70.35,
+  "median_add_on_count": 2.0,
+  "gray_zone_lower": 54,
+  "gray_zone_upper": 80,
+  "cold_start_tenure_cutoff": 5
+}
+
+Training complete.
