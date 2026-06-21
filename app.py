@@ -402,7 +402,7 @@ def render_header():
 def render_sidebar(metadata: dict):
     """Render sidebar dengan mode selector + info model. Return mode terpilih."""
     with st.sidebar:
-        st.markdown("### 🎯 Mode Prediksi")
+        st.markdown("### Mode Prediksi")
         mode = st.radio(
             "Pilih mode:",
             options=["Existing Customer", "New Customer", "Bulk Prediction"],
@@ -415,7 +415,7 @@ def render_sidebar(metadata: dict):
         )
 
         st.markdown("---")
-        st.markdown("### ℹ️ About Model")
+        st.markdown("### About Model")
 
         cold_meta = metadata.get("cold_start", {})
         noncold_meta = metadata.get("non_cold_start", {})
@@ -427,13 +427,13 @@ def render_sidebar(metadata: dict):
             Model dilatih terpisah untuk dua segmen pelanggan agar setiap
             model mempelajari pola churn yang spesifik:
 
-            **🟦 Cold Start** *(tenure ≤ {metadata.get('cold_start_tenure_cutoff', 5)} bulan)*
+            ** Cold Start** *(tenure ≤ {metadata.get('cold_start_tenure_cutoff', 5)} bulan)*
             - Model: `{cold_meta.get('model_name', 'N/A')}`
             - Threshold: `{cold_meta.get('threshold', 0):.4f}`
             - Recall: `{cold_meta.get('metrics', {}).get('recall', 0):.1%}`
             - ROC-AUC: `{cold_meta.get('metrics', {}).get('roc_auc', 0):.3f}`
 
-            **🟩 Non-Cold Start** *(tenure > {metadata.get('cold_start_tenure_cutoff', 5)} bulan)*
+            ** Non-Cold Start** *(tenure > {metadata.get('cold_start_tenure_cutoff', 5)} bulan)*
             - Model: `{noncold_meta.get('model_name', 'N/A')}`
             - Threshold: `{noncold_meta.get('threshold', 0):.4f}`
             - Recall: `{noncold_meta.get('metrics', {}).get('recall', 0):.1%}`
@@ -444,7 +444,7 @@ def render_sidebar(metadata: dict):
         )
 
         st.markdown("---")
-        st.markdown("### 🚦 Risk Zone")
+        st.markdown("### Risk Zone")
         gray_lower = metadata.get("gray_zone_lower", GRAY_ZONE_LOWER)
         gray_upper = metadata.get("gray_zone_upper", GRAY_ZONE_UPPER)
         st.markdown(
@@ -473,7 +473,7 @@ def render_sidebar(metadata: dict):
 
 
 def render_customer_overview(customer_row: pd.Series, segment_label: str):
-    st.markdown('<div class="fintel-section-title">👤 Customer Overview</div>', unsafe_allow_html=True)
+    st.markdown('<div class="fintel-section-title"> Customer Overview</div>', unsafe_allow_html=True)
     st.markdown(
         f"""
         <div class="fintel-card">
@@ -518,7 +518,7 @@ def render_customer_overview(customer_row: pd.Series, segment_label: str):
 
 
 def render_prediction_summary(churn_score: float, churn_prob: float, risk_zone: str, status_label: str):
-    st.markdown('<div class="fintel-section-title">📊 Prediction Summary</div>', unsafe_allow_html=True)
+    st.markdown('<div class="fintel-section-title"> Prediction Summary</div>', unsafe_allow_html=True)
 
     zone_style = RISK_ZONE_STYLE[risk_zone]
     status_color = COLOR_HIGH if status_label == "BERISIKO CHURN" else COLOR_SAFE
@@ -574,7 +574,7 @@ def render_prediction_summary(churn_score: float, churn_prob: float, risk_zone: 
         st.markdown(
             f"""
             <div class="gray-zone-banner">
-                ⚠️ <b>WARNING — ZONA AMBIGU (Gray Area)</b><br>
+                 <b>WARNING — ZONA AMBIGU (Gray Area)</b><br>
                 Churn Score berada di rentang {GRAY_ZONE_LOWER}-{GRAY_ZONE_UPPER}. Pelanggan ini masih
                 <b>BIMBANG</b> antara churn atau bertahan — segera tangani dengan prioritas tinggi
                 sebelum keputusan jatuh ke churn.
@@ -586,7 +586,7 @@ def render_prediction_summary(churn_score: float, churn_prob: float, risk_zone: 
         st.markdown(
             f"""
             <div class="high-risk-banner">
-                🔴 <b>RISIKO TINGGI</b> — Churn Score &gt; {GRAY_ZONE_UPPER}, pelanggan hampir pasti churn.
+                 <b>RISIKO TINGGI</b> — Churn Score &gt; {GRAY_ZONE_UPPER}, pelanggan hampir pasti churn.
             </div>
             """,
             unsafe_allow_html=True,
@@ -594,7 +594,7 @@ def render_prediction_summary(churn_score: float, churn_prob: float, risk_zone: 
 
 
 def render_risk_profile(profile: str, reason: str):
-    st.markdown('<div class="fintel-section-title">🧭 Risk Profile</div>', unsafe_allow_html=True)
+    st.markdown('<div class="fintel-section-title"> Risk Profile</div>', unsafe_allow_html=True)
     st.markdown(
         f"""
         <div class="risk-profile-box">
@@ -607,7 +607,7 @@ def render_risk_profile(profile: str, reason: str):
 
 
 def render_top_shap_drivers(shap_features: list):
-    st.markdown('<div class="fintel-section-title">📈 Top Churn Drivers (SHAP)</div>', unsafe_allow_html=True)
+    st.markdown('<div class="fintel-section-title"> Top Churn Drivers (SHAP)</div>', unsafe_allow_html=True)
 
     if not shap_features:
         st.info("SHAP belum dapat dihitung untuk customer ini.")
@@ -641,11 +641,11 @@ def render_top_shap_drivers(shap_features: list):
         showlegend=False,
     )
     st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
-    st.caption("🔴 Mendorong churn &nbsp;&nbsp;|&nbsp;&nbsp; 🟢 Menekan churn")
+    st.caption(" Mendorong churn &nbsp;&nbsp;|&nbsp;&nbsp;  Menekan churn")
 
 
 def render_recommendations(recommendations: list, risk_zone: str):
-    st.markdown('<div class="fintel-section-title">✅ Recommended Actions</div>', unsafe_allow_html=True)
+    st.markdown('<div class="fintel-section-title"> Recommended Actions</div>', unsafe_allow_html=True)
     n_base = len(recommendations) - (1 if risk_zone == "AMBIGU" else 0)
     for i, rec in enumerate(recommendations, 1):
         is_priority = risk_zone == "AMBIGU" and i > n_base
@@ -657,7 +657,7 @@ def render_recommendations(recommendations: list, risk_zone: str):
 
 
 def render_customer_details(customer_row: pd.Series):
-    st.markdown('<div class="fintel-section-title">📋 Customer Details</div>', unsafe_allow_html=True)
+    st.markdown('<div class="fintel-section-title"> Customer Details</div>', unsafe_allow_html=True)
     display_cols = [
         "customerID", "gender", "SeniorCitizen", "Partner", "Dependents", "tenure",
         "PhoneService", "MultipleLines", "InternetService", "OnlineSecurity",
@@ -698,10 +698,10 @@ def page_existing_customer(artifacts: dict, metadata: dict):
 
     if not customer_id_input and not search_clicked:
         st.info(
-            "👋 Masukkan **Customer ID** di atas untuk melihat laporan churn lengkap — "
+            " Masukkan **Customer ID** di atas untuk melihat laporan churn lengkap — "
             "skor risiko, profil pelanggan, faktor pendorong (SHAP), dan rekomendasi aksi retensi."
         )
-        with st.expander("📌 Contoh Customer ID yang tersedia"):
+        with st.expander(" Contoh Customer ID yang tersedia"):
             st.dataframe(
                 customer_df[["customerID", "tenure", "Contract", "MonthlyCharges"]].head(10),
                 use_container_width=True, hide_index=True,
@@ -715,9 +715,9 @@ def page_existing_customer(artifacts: dict, metadata: dict):
     customer_row = find_customer(customer_id_input, customer_df)
 
     if customer_row is None:
-        st.warning(f"⚠️ Customer ID **'{customer_id_input}'** tidak ditemukan.")
+        st.warning(f" Customer ID **'{customer_id_input}'** tidak ditemukan.")
         st.caption("Periksa kembali ejaan Customer ID, atau lihat contoh ID yang tersedia di bawah.")
-        with st.expander("📌 Contoh Customer ID yang tersedia"):
+        with st.expander(" Contoh Customer ID yang tersedia"):
             st.dataframe(
                 customer_df[["customerID", "tenure", "Contract", "MonthlyCharges"]].head(10),
                 use_container_width=True, hide_index=True,
@@ -763,7 +763,7 @@ def page_new_customer(artifacts: dict, metadata: dict):
     median_monthly = metadata.get("median_monthly_charges", DEFAULT_MEDIAN_MONTHLY)
 
     st.markdown(
-        '<div class="fintel-section-title">📝 Input Data Pelanggan Baru</div>',
+        '<div class="fintel-section-title"> Input Data Pelanggan Baru</div>',
         unsafe_allow_html=True,
     )
     st.caption(
@@ -774,7 +774,7 @@ def page_new_customer(artifacts: dict, metadata: dict):
 
     with st.form("new_customer_form", clear_on_submit=False):
         # Demografi
-        st.markdown("##### 👤 Demografi")
+        st.markdown("##### Demografi")
         c1, c2, c3, c4 = st.columns(4)
         gender = c1.selectbox("Gender", CATEGORICAL_OPTIONS["gender"])
         senior = c2.selectbox("Senior Citizen", CATEGORICAL_OPTIONS["SeniorCitizen"])
@@ -782,7 +782,7 @@ def page_new_customer(artifacts: dict, metadata: dict):
         dependents = c4.selectbox("Memiliki Tanggungan", CATEGORICAL_OPTIONS["Dependents"])
 
         # Account / Tagihan
-        st.markdown("##### 💳 Account & Tagihan")
+        st.markdown("##### Account & Tagihan")
         a1, a2, a3 = st.columns(3)
         tenure = a1.number_input(
             "Tenure (bulan)", min_value=0, max_value=120, value=12, step=1,
@@ -811,12 +811,12 @@ def page_new_customer(artifacts: dict, metadata: dict):
         )
 
         # Layanan
-        st.markdown("##### 📞 Layanan Telepon")
+        st.markdown("##### Layanan Telepon")
         p1, p2 = st.columns(2)
         phone_service = p1.selectbox("Phone Service", CATEGORICAL_OPTIONS["PhoneService"])
         multiple_lines = p2.selectbox("Multiple Lines", CATEGORICAL_OPTIONS["MultipleLines"])
 
-        st.markdown("##### 🌐 Layanan Internet & Add-on")
+        st.markdown("##### Layanan Internet & Add-on")
         i1, i2 = st.columns(2)
         internet_service = i1.selectbox("Internet Service", CATEGORICAL_OPTIONS["InternetService"])
         online_security = i2.selectbox("Online Security", CATEGORICAL_OPTIONS["OnlineSecurity"])
@@ -835,13 +835,13 @@ def page_new_customer(artifacts: dict, metadata: dict):
         submitted = st.form_submit_button("🔮 Prediksi Churn", type="primary", use_container_width=True)
 
     if not submitted:
-        st.info("ℹ️ Isi form di atas lalu klik **Prediksi Churn** untuk melihat laporan.")
+        st.info(" Isi form di atas lalu klik **Prediksi Churn** untuk melihat laporan.")
         return
 
     # Konsistensi internal sederhana: kalau Phone Service = No → MultipleLines harus 'No phone service'
     if phone_service == "No" and multiple_lines != "No phone service":
         st.warning(
-            "⚠️ Inkonsistensi terdeteksi: **Phone Service = No** mengharuskan **Multiple Lines = "
+            " Inkonsistensi terdeteksi: **Phone Service = No** mengharuskan **Multiple Lines = "
             "'No phone service'**. Nilai di-override otomatis."
         )
         multiple_lines = "No phone service"
@@ -856,7 +856,7 @@ def page_new_customer(artifacts: dict, metadata: dict):
         mismatches = [k for k, v in internet_addons.items() if v != "No internet service"]
         if mismatches:
             st.warning(
-                f"⚠️ Inkonsistensi terdeteksi: **Internet Service = No** mengharuskan semua layanan "
+                f" Inkonsistensi terdeteksi: **Internet Service = No** mengharuskan semua layanan "
                 f"internet bernilai **'No internet service'**. Field berikut di-override otomatis: "
                 f"{', '.join(mismatches)}."
             )
@@ -885,7 +885,7 @@ def page_new_customer(artifacts: dict, metadata: dict):
             median_monthly=median_monthly,
         )
 
-    st.success("✅ Prediksi berhasil dijalankan untuk pelanggan baru.")
+    st.success(" Prediksi berhasil dijalankan untuk pelanggan baru.")
     render_full_customer_report(customer_row, report)
 
 
@@ -957,7 +957,7 @@ def page_bulk_prediction(artifacts: dict, metadata: dict):
     median_monthly = metadata.get("median_monthly_charges", DEFAULT_MEDIAN_MONTHLY)
 
     st.markdown(
-        '<div class="fintel-section-title">📦 Bulk Prediction (CSV / Excel)</div>',
+        '<div class="fintel-section-title"> Bulk Prediction (CSV / Excel)</div>',
         unsafe_allow_html=True,
     )
     st.caption(
@@ -977,7 +977,7 @@ def page_bulk_prediction(artifacts: dict, metadata: dict):
             "di bawah untuk memastikan format yang benar:"
         )
         st.download_button(
-            "⬇️ Download Template CSV",
+            " Download Template CSV",
             data=_make_bulk_template(),
             file_name="fintel_bulk_template.csv",
             mime="text/csv",
@@ -991,26 +991,26 @@ def page_bulk_prediction(artifacts: dict, metadata: dict):
     )
 
     if uploaded_file is None:
-        st.info("📤 Upload file di atas untuk memulai bulk prediction.")
+        st.info(" Upload file di atas untuk memulai bulk prediction.")
         return
 
     try:
         df_input = _read_uploaded_file(uploaded_file)
     except Exception as e:
-        st.error(f"❌ Gagal membaca file: {e}")
+        st.error(f" Gagal membaca file: {e}")
         return
 
-    st.caption(f"📄 File **{uploaded_file.name}** dimuat: {df_input.shape[0]} baris, {df_input.shape[1]} kolom.")
+    st.caption(f" File **{uploaded_file.name}** dimuat: {df_input.shape[0]} baris, {df_input.shape[1]} kolom.")
 
     is_valid, err, df_norm = _validate_bulk_input(df_input)
     if not is_valid:
-        st.error(f"❌ Validasi gagal: {err}")
-        with st.expander("🔍 Lihat kolom file yang terupload"):
+        st.error(f" Validasi gagal: {err}")
+        with st.expander(" Lihat kolom file yang terupload"):
             st.write(list(df_input.columns))
         return
 
     n_rows = len(df_norm)
-    st.write(f"✅ Validasi lolos. Memproses **{n_rows}** pelanggan...")
+    st.write(f" Validasi lolos. Memproses **{n_rows}** pelanggan...")
 
     cold_bundle = artifacts["cold_bundle"]
     noncold_bundle = artifacts["noncold_bundle"]
@@ -1038,12 +1038,12 @@ def page_bulk_prediction(artifacts: dict, metadata: dict):
     progress.empty()
 
     if errors:
-        st.warning(f"⚠️ {len(errors)} pelanggan gagal diprediksi. Lihat detail di bawah.")
+        st.warning(f" {len(errors)} pelanggan gagal diprediksi. Lihat detail di bawah.")
         with st.expander("Lihat error detail"):
             st.dataframe(pd.DataFrame(errors), use_container_width=True, hide_index=True)
 
     if not results:
-        st.error("❌ Tidak ada pelanggan yang berhasil diprediksi. Periksa format/nilai data.")
+        st.error(" Tidak ada pelanggan yang berhasil diprediksi. Periksa format/nilai data.")
         return
 
     df_results = pd.DataFrame(results)
@@ -1055,7 +1055,7 @@ def page_bulk_prediction(artifacts: dict, metadata: dict):
     n_ambigu = int(df_results["RiskZone"].eq("AMBIGU").sum())
     n_aman = int(df_results["RiskZone"].eq("AMAN").sum())
 
-    st.markdown('<div class="fintel-section-title">📊 Ringkasan Hasil</div>', unsafe_allow_html=True)
+    st.markdown('<div class="fintel-section-title"> Ringkasan Hasil</div>', unsafe_allow_html=True)
     s1, s2, s3, s4, s5 = st.columns(5)
     s1.metric("Total Diprediksi", f"{n_success:,}")
     s2.metric("Berisiko Churn", f"{n_churn:,}", delta=f"{n_churn/n_success:.0%}")
@@ -1064,7 +1064,7 @@ def page_bulk_prediction(artifacts: dict, metadata: dict):
     s5.metric("Risk: AMAN", f"{n_aman:,}", delta=f"{n_aman/n_success:.0%}")
 
     # ── Filter / tabel detail ──────────────────────────────────────────
-    st.markdown('<div class="fintel-section-title">📋 Detail Hasil per Pelanggan</div>', unsafe_allow_html=True)
+    st.markdown('<div class="fintel-section-title"> Detail Hasil per Pelanggan</div>', unsafe_allow_html=True)
     f1, f2 = st.columns([1, 1])
     risk_filter = f1.multiselect(
         "Filter Risk Zone",
@@ -1097,7 +1097,7 @@ def page_bulk_prediction(artifacts: dict, metadata: dict):
     )
 
     # ── Download hasil ─────────────────────────────────────────────────
-    st.markdown('<div class="fintel-section-title">⬇️ Download Hasil</div>', unsafe_allow_html=True)
+    st.markdown('<div class="fintel-section-title"> Download Hasil</div>', unsafe_allow_html=True)
     d1, d2 = st.columns(2)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
