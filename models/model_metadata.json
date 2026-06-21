@@ -1,0 +1,33 @@
+{
+  "cold_start": {
+    "model_name": "LogisticRegression",
+    "threshold": 0.20931033582390476,
+    "metrics": {
+      "recall": 1.0,
+      "precision": 0.5665399239543726,
+      "f2": 0.8672875436554133,
+      "roc_auc": 0.7586348011131118,
+      "n_train": 1088,
+      "n_test": 272
+    },
+    "shap_explainer": "LinearExplainer"
+  },
+  "non_cold_start": {
+    "model_name": "LogisticRegression",
+    "threshold": 0.5098884392378822,
+    "metrics": {
+      "recall": 0.84,
+      "precision": 0.441588785046729,
+      "f2": 0.7115963855421686,
+      "roc_auc": 0.8522442002442002,
+      "n_train": 4537,
+      "n_test": 1135
+    },
+    "shap_explainer": "LinearExplainer"
+  },
+  "median_monthly_charges": 70.35,
+  "median_add_on_count": 2.0,
+  "gray_zone_lower": 54,
+  "gray_zone_upper": 80,
+  "cold_start_tenure_cutoff": 5
+}
